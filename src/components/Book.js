@@ -21,7 +21,7 @@ const Book = ({ book, isSearch, onReload }) => {
                     style={{
                         width: 128,
                         height: 174,
-                        backgroundImage: `url(${book.imageLinks.smallThumbnail})`,
+                        backgroundImage: `url(${book.imageLinks?.smallThumbnail})`,
                     }}
                 ></div>
                 <BookShelfChange shelf={isSearch ? '' :  book.shelf} onHandleChange={onChangeShelf}/>
