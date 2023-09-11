@@ -26,7 +26,7 @@ const Book = ({ book, onReload }) => {
                         backgroundImage: `url(${book.imageLinks?.smallThumbnail})`,
                     }}
                 ></div>
-                <BookShelfChange shelf={book.shelf ?? ''} onHandleChange={onChangeShelf} />
+                <BookShelfChange shelf={book.shelf ?? 'none'} onHandleChange={onChangeShelf} />
             </div>
             <div className='book-title'>{book.title}</div>
             <div className='book-authors'>{book.authors}</div>
