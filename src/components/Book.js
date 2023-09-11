@@ -1,17 +1,19 @@
+import React from 'react';
 import BookShelfChange from './BookShelfChanger';
 import PropTypes from 'prop-types';
 import { update } from '../utils/BooksAPI';
 
-const Book = ({ book, isSearch, onReload }) => {
-    const onChangeShelf = async (shelf) =>{
-        if(book.shelf === shelf){
+const Book = ({ book, onReload }) => {
+    const onChangeShelf = async (shelf) => {
+        if (book.shelf === shelf) {
             return;
         }
         //Update bookshelve
         await update(book, shelf);
+        book.shelf = shelf;
         //Call refesh data if on HomePage
-        if(!isSearch) onReload();
-    }
+        onReload();
+    };
 
     return (
         <div className='book'>
@@ -24,7 +26,7 @@ const Book = ({ book, isSearch, onReload }) => {
                         backgroundImage: `url(${book.imageLinks?.smallThumbnail})`,
                     }}
                 ></div>
-                <BookShelfChange shelf={isSearch ? '' :  book.shelf} onHandleChange={onChangeShelf}/>
+                <BookShelfChange shelf={book.shelf ?? ''} onHandleChange={onChangeShelf} />
             </div>
             <div className='book-title'>{book.title}</div>
             <div className='book-authors'>{book.authors}</div>
@@ -34,8 +36,7 @@ const Book = ({ book, isSearch, onReload }) => {
 
 Book.propTypes = {
     book: PropTypes.object.isRequired,
-    isSearch: PropTypes.bool, 
-    onReload: PropTypes.func,   
+    onReload: PropTypes.func.isRequired,
 };
 
-export default Book;
+export default React.memo(Book);

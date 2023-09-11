@@ -1,37 +1,30 @@
 import { useEffect, useState } from 'react';
-import { getAll } from '../utils/BooksAPI';
 import BookShelve from '../components/BookShelve';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
-const Home = () => {
-    const [isRefesh, setIsRefesh] = useState(true);
+const Home = ({booksInShelves, onRefesh}) => {
     const [booksCurrentlyReading, setBooksCurrentlyReading] = useState([]);
     const [booksWantToRead, setBooksWantToRead] = useState([]);
     const [booksRead, setBooksRead] = useState([]);
 
     useEffect(() => {
-        const getAllBooks = async () => {
-            const res = await getAll();
-            getStateBooks(res);
-        };
-        getAllBooks();
-    }, [isRefesh]);
+        getStateBooks(booksInShelves);
+    }, [booksInShelves]);
 
     const getStateBooks = (books) => {
-        const booksCurrentlyReading = books?.filter((x) => x.shelf === 'currentlyReading');
+        const filter = (books) => (shelf) => books.filter((book) => book.shelf === shelf);
+        const filterBy = filter(books);
+
+        const booksCurrentlyReading = filterBy('currentlyReading');
         setBooksCurrentlyReading(booksCurrentlyReading);
 
-        const booksWantToRead = books?.filter((x) => x.shelf === 'wantToRead');
+        const booksWantToRead = filterBy('wantToRead');
         setBooksWantToRead(booksWantToRead);
 
-        const booksRead = books?.filter((x) => x.shelf === 'read');
+        const booksRead = filterBy('read');
         setBooksRead(booksRead);
     };
-
-    //handle refesh data when change state of book
-    const onRefesh = () =>{
-        setIsRefesh(!isRefesh);
-    }
 
     return (
         <div className='list-books'>
@@ -40,9 +33,17 @@ const Home = () => {
             </div>
             <div className='list-books-content'>
                 <div>
-                    <BookShelve books={booksCurrentlyReading} title={'Currently Reading'} onReload={onRefesh}/>
-                    <BookShelve books={booksWantToRead} title={'Want to Read'} onReload={onRefesh}/>
-                    <BookShelve books={booksRead} title={'Read'} onReload={onRefesh}/>
+                    <BookShelve
+                        books={booksCurrentlyReading}
+                        title={'Currently Reading'}
+                        onReload={onRefesh}
+                    />
+                    <BookShelve
+                        books={booksWantToRead}
+                        title={'Want to Read'}
+                        onReload={onRefesh}
+                    />
+                    <BookShelve books={booksRead} title={'Read'} onReload={onRefesh} />
                 </div>
             </div>
             <div className='open-search'>
@@ -50,6 +51,11 @@ const Home = () => {
             </div>
         </div>
     );
+};
+
+Home.propTypes = {
+    booksInShelves: PropTypes.array.isRequired,
+    onRefesh: PropTypes.func.isRequired,
 };
 
 export default Home;

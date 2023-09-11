@@ -16,6 +16,6 @@ const BookShelve = ({ title, books, onReload}) => {
 BookShelve.propTypes = {
     title: PropTypes.string.isRequired,
     books: PropTypes.array.isRequired,    
-    onReload: PropTypes.func,
+    onReload: PropTypes.func.isRequired,
 };
 export default BookShelve;
