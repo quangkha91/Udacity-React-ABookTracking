@@ -195,6 +195,6 @@ The backend API uses a fixed set of cached search results and is limited to a pa
 
 This project is licensed under the [MIT License](LICENSE) - see the [LICENSE](LICENSE) file for details.
 
-Giấy Phép MIT (MIT)
+The MIT License (MIT)
 
-[Toàn Bộ Văn Bản Giấy Phép](https://opensource.org/licenses/MIT)
+[Full License Text](https://opensource.org/licenses/MIT)
